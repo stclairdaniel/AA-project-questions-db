@@ -3,7 +3,8 @@ require_relative 'questionsdb_connection'
 class Reply
   attr_accessor :body, :parent_reply_id, :question_id, :author_id
 
-  def self.all
+  def self.table
+    'replies'
   end
 
   def self.find_by_id(id)
@@ -65,6 +66,27 @@ class Reply
     @parent_reply_id = options['parent_reply_id']
     @question_id = options['question_id']
     @author_id = options['author_id']
+  end
+
+  def save
+    if @id
+      QuestionsDBConnection.instance.execute(<<-SQL, @body, @parent_reply_id, @question_id, @author_id, @id)
+        UPDATE
+          replies
+        SET
+          body = ?, parent_reply_id = ?, question_id = ?, author_id = ?
+        WHERE
+          id = ?
+      SQL
+    else
+      QuestionsDBConnection.instance.execute(<<-SQL, @body, @parent_reply_id, @question_id, @author_id)
+        INSERT INTO
+          replies
+        VALUES
+          (?, ?, ?, ?)
+      SQL
+      @id = QuestionsDBConnection.instance.last_insert_row_id
+    end
   end
 
   def author

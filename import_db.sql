@@ -52,19 +52,26 @@ INSERT INTO
   users (fname, lname)
 VALUES
   ('Axel', 'Larson'),
-  ('Dan', 'St. Clair');
+  ('Dan', 'St. Clair'),
+  ('Bob', 'the Builder');
 
 INSERT INTO
   questions (title, body, author_id)
 VALUES
   ('Post1', 'Body1', 1),
-  ('Post2', 'Body2', 2);
+  ('Post2', 'Body2', 2),
+  ('Post3', 'Body3', 3),
+  ('Post4', 'Body4', 1);
 
 INSERT INTO
   question_follows (user_id, question_id)
 VALUES
+  (1, 1),
   (1, 2),
-  (2, 1);
+  (1, 3),
+  (2, 1),
+  (2, 2),
+  (3, 1);
 
 INSERT INTO
   replies (body, parent_reply_id, question_id, author_id)
@@ -75,5 +82,9 @@ VALUES
 INSERT INTO
   question_likes (user_id, question_id)
 VALUES
+  (1, 1),
+  (1, 2),
+  (1, 3),
   (2, 1),
-  (1, 2);
+  (2, 2),
+  (3, 1);
