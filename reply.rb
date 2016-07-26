@@ -46,7 +46,7 @@ class Reply
   end
 
   def self.find_by_parent_id(parent_reply_id)
-    reply = QuestionsDBConnection.instance.execute(<<-SQL, parent_reply_id)
+    replies = QuestionsDBConnection.instance.execute(<<-SQL, parent_reply_id)
       SELECT
         *
       FROM
@@ -55,7 +55,7 @@ class Reply
         replies.parent_reply_id = ?
       SQL
 
-    reply.map { |reply| Reply.new(reply) } unless reply.length < 1
+    replies.map { |reply| Reply.new(reply) } unless reply.length < 1
   end
 
 
